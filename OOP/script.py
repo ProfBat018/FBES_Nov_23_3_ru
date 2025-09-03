@@ -169,25 +169,42 @@ from xmlrpc.client import DateTime
 
 
 #region Example 8
-
-class Bird:
-    def fly(self):
-        return "Flying"
-
-class Airplane:
-    def fly(self):
-        return "Flying"
-
-def make_it_fly(flyable):
-    return flyable.fly()
-
-bird = Bird()
-plane = Airplane()
-print(make_it_fly(bird))  # Output: Flying
-print(make_it_fly(plane))  # Output: Flying
-
-if (make_it_fly(bird) and make_it_fly(plane)):
-    print("Both can fly")
-
+#
+# class Bird:
+#     def fly(self):
+#         return "Flying"
+#
+# class Airplane:
+#     def fly(self):
+#         return "Flying"
+#
+# def make_it_fly(flyable):
+#     return flyable.fly()
+#
+# bird = Bird()
+# plane = Airplane()
+# print(make_it_fly(bird))  # Output: Flying
+# print(make_it_fly(plane))  # Output: Flying
+#
+# if (make_it_fly(bird) and make_it_fly(plane)):
+#     print("Both can fly")
 
 #endregion
+
+import functools
+
+def log_decorator(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f"Вызов функции {func.__name__} с аргументами {args} и {kwargs}")
+        result = func(*args, **kwargs)
+        print(f"Функция {func.__name__} вернула {result}")
+        return result
+    return wrapper
+
+@log_decorator
+def add(a, b, **kwargs):
+    return a + b
+
+add(3, 5, test="example")
+
